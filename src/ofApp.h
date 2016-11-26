@@ -27,7 +27,8 @@ public:
     
     vector <float> left;
     vector <float> right;
-    vector <float> volumeArray;
+    vector <float> volume_array;
+    vector <float> gain_array;
     float smoothedVol;
     
     vector <PlayerColumn*> column_array;

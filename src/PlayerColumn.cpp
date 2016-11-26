@@ -15,13 +15,14 @@ void PlayerColumn::calc_column_dimensions() {
     //get power-up lane positions
 }
 
-PlayerColumn::PlayerColumn(float* smoothedVolApp) : smoothedVolPtr(smoothedVolApp){
+PlayerColumn::PlayerColumn(float* smoothedVolApp) : smoothedVolPtr(smoothedVolApp) {
     // calculate column dimensions - width, height, power-up lane
     calc_column_dimensions();
     // init power-up values (gain_multiplier, overheat, [sweet spot values])
     gain_multiplier = 100;
     // init volumeHistory vector
-    volHistory.assign(VOL_BUFFER_SIZE, 0.0);
+    
+    volHistory.assign(VOL_BUFFER_SIZE, make_tuple(0.0, 0.0));
     scaledVol = 0.0;
     // init racer position point
 }
@@ -31,7 +32,7 @@ void PlayerColumn::add_current_volume_val() {
     scaledVol = ofMap(*smoothedVolPtr, 0.0, 0.17, 0.0, 1.0, true);
     
     //lets record the volume into an array
-    volHistory.push_back(scaledVol);
+    volHistory.push_back(make_tuple(scaledVol, gain_multiplier));
     
     //if we are bigger the the size we want to record - lets drop the oldest value
     if(volHistory.size() >= VOL_BUFFER_SIZE){
@@ -60,7 +61,7 @@ void PlayerColumn::draw_volume_walls() {
         if(i == 0 || i == volHistory.size() -1){
             ofVertex(0, y_position);
         } else {
-            ofVertex(volHistory[i] * gain_multiplier, y_position);
+            ofVertex(get<0>(volHistory[i]) * get<1>(volHistory[i]), y_position);
         }
     }
     ofEndShape(false);
@@ -72,7 +73,7 @@ void PlayerColumn::draw_volume_walls() {
         if(i == 0 || i == volHistory.size() -1){
             ofVertex(column_width, y_position);
         } else {
-            ofVertex(column_width - volHistory[i] * gain_multiplier, y_position);
+            ofVertex(column_width - (get<0>(volHistory[i]) * get<1>(volHistory[i])), y_position);
         }
     }
     ofEndShape(false);

@@ -25,7 +25,7 @@ class PlayerColumn {
         void add_current_volume_val();
         void draw_volume_walls();
     
-        vector <float> volHistory;
+        vector <tuple <float,float>> volHistory;
         float scaledVol, gain_multiplier;
         float* smoothedVolPtr;
         float column_width, column_height;

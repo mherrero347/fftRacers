@@ -23,10 +23,10 @@ void ofApp::setup(){
     
     left.assign(bufferSize, 0.0);
     right.assign(bufferSize, 0.0);
-    volumeArray.assign(NUM_PLAYERS, 0.0);
+    volume_array.assign(NUM_PLAYERS, 0.0);
     
     for(int i = 0; i < NUM_PLAYERS; i++) {
-        column_array.push_back(new PlayerColumn(&volumeArray[i]));
+        column_array.push_back(new PlayerColumn(&volume_array[i]) );
     }
     
     soundStream.setup(this, 0, 2, 44100, bufferSize, 4);
@@ -82,8 +82,15 @@ void ofApp::audioIn(float * input, int bufferSize, int nChannels){
     smoothedVol *= 0.93;
     smoothedVol += 0.07 * curVol;
     
-    for(int i = 0; i < volumeArray.size(); i++){
-        volumeArray[i] = smoothedVol;
+    for(int i = 0; i < volume_array.size(); i++){
+        volume_array[i] = smoothedVol;
+    }
+}
+
+//--------------------------------------------------------------
+void ofApp::windowResized(int w, int h){
+    for(int i = 0; i < NUM_PLAYERS; i++) {
+        column_array[i]->resize();
     }
 }
 
@@ -125,13 +132,6 @@ void ofApp::mouseEntered(int x, int y){
 //--------------------------------------------------------------
 void ofApp::mouseExited(int x, int y){
     
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-    for(int i = 0; i < NUM_PLAYERS; i++) {
-        column_array[i]->resize();
-    }
 }
 
 //--------------------------------------------------------------
