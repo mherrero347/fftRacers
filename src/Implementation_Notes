@@ -1,0 +1,9 @@
+## Things To Do ##
+
+### Now ####
+    - store 2-space arrays in volHistory, first with the volume level at that moment, and the second with the gain_multiplier at that moment, and use that gain_multiplier to scale it (helpful in overheating eventually)
+
+### Next ####
+    -
+
+### In A Bit ####
