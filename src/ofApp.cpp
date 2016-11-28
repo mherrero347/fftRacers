@@ -26,7 +26,7 @@ void ofApp::setup(){
     volume_array.assign(NUM_PLAYERS, 0.0);
     
     for(int i = 0; i < NUM_PLAYERS; i++) {
-        column_array.push_back(new PlayerColumn(&volume_array[i]) );
+        column_array.push_back(new PlayerColumn(&volume_array[i], &key_state_arr, i+1));
     }
     
     soundStream.setup(this, 0, 2, 44100, bufferSize, 4);
@@ -41,9 +41,6 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    
-    ofSetColor(225);
-    ofNoFill();
     
     for(int i = 0; i < NUM_PLAYERS; i++) {
         ofPushStyle();
@@ -96,12 +93,22 @@ void ofApp::windowResized(int w, int h){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    
+    key_state_arr.push_back(key);
+}
+
+void ofApp::removeKeyFromState(int key){
+    vector <int> new_array;
+    for(int i = 0; i < key_state_arr.size(); i++){
+        if (key_state_arr[i] != key){
+            new_array.push_back(key_state_arr[i]);
+        }
+    }
+    key_state_arr = new_array;
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-    
+    removeKeyFromState(key);
 }
 
 //--------------------------------------------------------------

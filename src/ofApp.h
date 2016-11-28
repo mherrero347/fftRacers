@@ -12,6 +12,7 @@ public:
     void draw();
     
     void keyPressed(int key);
+    void removeKeyFromState(int key);
     void keyReleased(int key);
     void mouseMoved(int x, int y );
     void mouseDragged(int x, int y, int button);
@@ -25,10 +26,8 @@ public:
 				
     void audioIn(float * input, int bufferSize, int nChannels);
     
-    vector <float> left;
-    vector <float> right;
-    vector <float> volume_array;
-    vector <float> gain_array;
+    vector <float> left, right, volume_array, gain_array;
+    vector <int> key_state_arr;
     float smoothedVol;
     
     vector <PlayerColumn*> column_array;

@@ -1,7 +1,9 @@
 ## Things To Do ##
 
 ### Now ####
-    - store 2-space arrays in volHistory, first with the volume level at that moment, and the second with the gain_multiplier at that moment, and use that gain_multiplier to scale it (helpful in overheating eventually)
+    - racer takes in movement keys (key for right, key for left)
+    - implement racer inside of column
+        - make racer class that can check for collisions, checks if it's inside the power-up zone, and takes care of moving itself around
 
 ### Next ####
     -
