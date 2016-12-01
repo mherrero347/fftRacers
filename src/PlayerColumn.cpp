@@ -7,6 +7,7 @@
 //
 
 #include "PlayerColumn.h"
+#include "Racer.h"
 #include "ofMain.h"
 #include <iostream>
 #include <algorithm>
@@ -20,21 +21,15 @@ void PlayerColumn::calc_column_dimensions() {
 void PlayerColumn::assign_player_specific_fields(int playerNumber) {
     switch(playerNumber) {
         case 1: {
-            moveLeftKey = 'a';
-            moveRightKey = 'd';
+            racer->set_move_keys('a','d');
             gainKey = 'f';
-            racer_color.r = 0;
-            racer_color.g = 0;
-            racer_color.b = 255;
+            racer->set_racer_color(0, 0, 255);
             break;
         }
         case 2: {
-            moveLeftKey = OF_KEY_LEFT;
-            moveRightKey = OF_KEY_RIGHT;
+            racer->set_move_keys(OF_KEY_LEFT, OF_KEY_RIGHT);
             gainKey = 'g';
-            racer_color.r = 255;
-            racer_color.g = 0;
-            racer_color.b = 0;
+            racer->set_racer_color(255, 0, 0);
             break;
         }
     }
@@ -49,10 +44,9 @@ PlayerColumn::PlayerColumn(float* smoothedVolApp, vector<int>* keyStateApp, int 
     gain_multiplier = 100;
     volHistory.assign(VOL_BUFFER_SIZE, make_tuple(0.0, 0.0));
     scaledVol = 0.0;
-    current_accel = 0;
-    current_vel = 0;
     // init racer position point
-    racer_posit.set(column_width/2.0, (4*column_height)/5.0);
+    racer = new Racer(keyStatePtr, column_width, column_height);
+    racer->set_racer_position(column_width/2.0, (4*column_height)/5.0);
     assign_player_specific_fields(playerNumber);
 }
 
@@ -74,33 +68,9 @@ bool PlayerColumn::in_key_state(int key) {
     return (find(keyState.begin(), keyState.end(), key) != keyState.end());
 }
 
-void PlayerColumn::update_racer_accel() {
-    vector <int> keyState = *keyStatePtr;
-    if (in_key_state(moveRightKey) || in_key_state(moveLeftKey)){
-        current_accel = move_accel;
-        if (in_key_state(moveLeftKey)) current_accel *= -1;
-    } else if (current_vel != 0){
-        current_accel = damping_accel;
-        if (current_vel > 0) current_accel *= -1;
-    } else {
-        current_accel = 0;
-    }
-}
-
-void PlayerColumn::update_racer_position() {
-    update_racer_accel();
-    current_vel += current_accel;
-    // FIX CATCHING ON EDGES BUG
-    if (racer_posit.x < column_width && racer_posit.x > 0) {
-        racer_posit.x += current_vel;
-    } else {
-        
-    }
-}
-
 void PlayerColumn::update(){
     add_current_volume_val();
-    update_racer_position();
+    racer->update();
     if(in_key_state(gainKey) && gain_multiplier < 1000){
         gain_multiplier += 10;
     } else if (gain_multiplier > 100) {
@@ -108,14 +78,10 @@ void PlayerColumn::update(){
     }
 }
 
-void PlayerColumn::resize_racer_position(float racer_perc_from_left) {
-    racer_posit.set(column_width * racer_perc_from_left, (column_height*4)/5.0);
-}
-
 void PlayerColumn::resize() {
-    float racer_perc_from_left = racer_posit.x/column_width;
+    float racer_perc_from_left = racer->get_center_x()/column_width;
     calc_column_dimensions();
-    resize_racer_position(racer_perc_from_left);
+    racer->resize(racer_perc_from_left, column_width, column_height);
 }
 
 void PlayerColumn::draw_volume_walls() {
@@ -149,11 +115,6 @@ void PlayerColumn::draw_volume_walls() {
     ofEndShape(false);
 }
 
-void PlayerColumn::draw_racer() {
-    ofSetColor(racer_color);
-    ofDrawCircle(racer_posit, 10);
-}
-
 void PlayerColumn::draw_border() {
     ofSetColor(245, 58, 135);
     ofNoFill();
@@ -163,5 +124,5 @@ void PlayerColumn::draw_border() {
 void PlayerColumn::draw() {
     draw_border();
     draw_volume_walls();
-    draw_racer();
+    racer->draw();
 }
