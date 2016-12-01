@@ -17,16 +17,24 @@ void PlayerColumn::calc_column_dimensions() {
     //get power-up lane positions
 }
 
-void PlayerColumn::assign_movement_keys(int playerNumber) {
+void PlayerColumn::assign_player_specific_fields(int playerNumber) {
     switch(playerNumber) {
         case 1: {
-            moveLeftKey = OF_KEY_LEFT;
-            moveRightKey = OF_KEY_RIGHT;
+            moveLeftKey = 'a';
+            moveRightKey = 'd';
+            gainKey = 'f';
+            racer_color.r = 0;
+            racer_color.g = 0;
+            racer_color.b = 255;
             break;
         }
         case 2: {
-            moveLeftKey = 'a';
-            moveRightKey = 'd';
+            moveLeftKey = OF_KEY_LEFT;
+            moveRightKey = OF_KEY_RIGHT;
+            gainKey = 'g';
+            racer_color.r = 255;
+            racer_color.g = 0;
+            racer_color.b = 0;
             break;
         }
     }
@@ -36,15 +44,16 @@ PlayerColumn::PlayerColumn(float* smoothedVolApp, vector<int>* keyStateApp, int 
     smoothedVolPtr(smoothedVolApp),
     keyStatePtr(keyStateApp)
 {
-    // calculate column dimensions - width, height, power-up lane
     calc_column_dimensions();
     // init power-up values (gain_multiplier, overheat, [sweet spot values])
     gain_multiplier = 100;
     volHistory.assign(VOL_BUFFER_SIZE, make_tuple(0.0, 0.0));
     scaledVol = 0.0;
+    current_accel = 0;
+    current_vel = 0;
     // init racer position point
     racer_posit.set(column_width/2.0, (4*column_height)/5.0);
-    assign_movement_keys(playerNumber);
+    assign_player_specific_fields(playerNumber);
 }
 
 void PlayerColumn::add_current_volume_val() {
@@ -65,17 +74,41 @@ bool PlayerColumn::in_key_state(int key) {
     return (find(keyState.begin(), keyState.end(), key) != keyState.end());
 }
 
-void PlayerColumn::update_racer_position() {
+void PlayerColumn::update_racer_accel() {
     vector <int> keyState = *keyStatePtr;
+    if (in_key_state(moveRightKey) || in_key_state(moveLeftKey)){
+        current_accel = move_accel;
+        if (in_key_state(moveLeftKey)) current_accel *= -1;
+    } else if (current_vel != 0){
+        current_accel = damping_accel;
+        if (current_vel > 0) current_accel *= -1;
+    } else {
+        current_accel = 0;
+    }
+}
+
+void PlayerColumn::update_racer_position() {
+    update_racer_accel();
+    current_vel += current_accel;
+    // FIX CATCHING ON EDGES BUG
+    if (racer_posit.x < column_width && racer_posit.x > 0) {
+        racer_posit.x += current_vel;
+    }
+    /*vector <int> keyState = *keyStatePtr;
     if (!(keyState.empty())){
         if (in_key_state(moveRightKey) && racer_posit.x < column_width) racer_posit.x += 4;
         if (in_key_state(moveLeftKey) && racer_posit.x > 0) racer_posit.x -= 4;
-    }
+    }*/
 }
 
 void PlayerColumn::update(){
     add_current_volume_val();
     update_racer_position();
+    if(in_key_state(gainKey) && gain_multiplier < 1000){
+        gain_multiplier += 10;
+    } else if (gain_multiplier > 100) {
+        gain_multiplier -= 10;
+    }
 }
 
 void PlayerColumn::resize_racer_position(float racer_perc_from_left) {
@@ -120,11 +153,12 @@ void PlayerColumn::draw_volume_walls() {
 }
 
 void PlayerColumn::draw_racer() {
-    ofDrawCircle(racer_posit, 5);
+    ofSetColor(racer_color);
+    ofDrawCircle(racer_posit, 10);
 }
 
 void PlayerColumn::draw_border() {
-    ofSetColor(225);
+    ofSetColor(245, 58, 135);
     ofNoFill();
     ofDrawRectangle(0, 0, 0, column_width, column_height);
 }

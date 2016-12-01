@@ -1,11 +1,16 @@
 ## Things To Do ##
 
+FEATURE CHANGE = make overheating cause shaking in both racers at the same time, which disincentivizes both players to yell too loudly!
+
+
 ### Now ####
-    - racer takes in movement keys (key for right, key for left)
-    - implement racer inside of column
-        - make racer class that can check for collisions, checks if it's inside the power-up zone, and takes care of moving itself around
+    - racer
+        - implement acceleration-velocity based movement
 
 ### Next ####
-    -
+    - check for collisions
+        - maybe store a vector of all points put into the volume walls as they're put in?
+    - implement gain power-up lanes
+    - implement multi-microphone input
 
 ### In A Bit ####

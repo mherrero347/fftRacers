@@ -29,15 +29,20 @@ class PlayerColumn {
         void draw_racer();
         void draw_volume_walls();
         bool in_key_state(int key);
-        void assign_movement_keys(int playerNumber);
+        void update_racer_accel();
+        void assign_player_specific_fields(int playerNumber);
     
         ofPoint racer_posit;
-        int moveLeftKey, moveRightKey;
+        ofColor racer_color;
+        int moveLeftKey, moveRightKey, gainKey;
         vector <tuple <float,float>> volHistory;
-        float scaledVol, gain_multiplier, column_width, column_height;
+        float scaledVol, gain_multiplier, column_width, column_height, current_accel, current_vel;
         float* smoothedVolPtr;
         vector<int>* keyStatePtr;
-        const int VOL_BUFFER_SIZE = 200;
+        const int VOL_BUFFER_SIZE = 150;
+        const float move_accel = 1;
+        const float damping_accel = .4;
+    
 };
 
 #endif /* PlayerColumn_h */
