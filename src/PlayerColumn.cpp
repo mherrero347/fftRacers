@@ -93,12 +93,9 @@ void PlayerColumn::update_racer_position() {
     // FIX CATCHING ON EDGES BUG
     if (racer_posit.x < column_width && racer_posit.x > 0) {
         racer_posit.x += current_vel;
+    } else {
+        
     }
-    /*vector <int> keyState = *keyStatePtr;
-    if (!(keyState.empty())){
-        if (in_key_state(moveRightKey) && racer_posit.x < column_width) racer_posit.x += 4;
-        if (in_key_state(moveLeftKey) && racer_posit.x > 0) racer_posit.x -= 4;
-    }*/
 }
 
 void PlayerColumn::update(){

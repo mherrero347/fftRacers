@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6147FA781DEFFA1200A7E322 /* Racer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6147FA761DEFFA1200A7E322 /* Racer.cpp */; };
 		61EFD4DB1DE8D49600F2747F /* PlayerColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61EFD4D91DE8D49600F2747F /* PlayerColumn.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1D0A3A1BDC003C02F2 /* main.cpp */; };
@@ -43,6 +44,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6147FA761DEFFA1200A7E322 /* Racer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Racer.cpp; sourceTree = "<group>"; };
+		6147FA791DEFFA8100A7E322 /* Racer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Racer.h; sourceTree = "<group>"; };
 		61C34ADA1DE3ECFA00F7F60C /* Implementation_Notes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Implementation_Notes; sourceTree = "<group>"; };
 		61EFD4D91DE8D49600F2747F /* PlayerColumn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerColumn.cpp; sourceTree = "<group>"; };
 		61EFD4DC1DE8D4D700F2747F /* PlayerColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerColumn.h; sourceTree = "<group>"; };
@@ -112,6 +115,8 @@
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				61C34ADA1DE3ECFA00F7F60C /* Implementation_Notes */,
+				6147FA761DEFFA1200A7E322 /* Racer.cpp */,
+				6147FA791DEFFA8100A7E322 /* Racer.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -215,6 +220,7 @@
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				61EFD4DB1DE8D49600F2747F /* PlayerColumn.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
+				6147FA781DEFFA1200A7E322 /* Racer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
