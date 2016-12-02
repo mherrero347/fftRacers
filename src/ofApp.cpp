@@ -22,6 +22,7 @@ void ofApp::setup(){
     smoothedVol = 0.0;
     game_over = false;
     loser = -1;
+    hanzipen_50pt.load("Arial", 50);
     
     left.assign(bufferSize, 0.0);
     right.assign(bufferSize, 0.0);
@@ -58,6 +59,16 @@ void ofApp::game_over_message() {
     ofPushMatrix();
     ofTranslate(ofGetWidth()/4.0, ofGetHeight()/6.0, 0);
     draw_game_over_box();
+    ofSetColor(255);
+    if (loser == 1) {
+        float s_width = hanzipen_50pt.stringWidth("Red Wins!");
+        float s_height = hanzipen_50pt.stringHeight("Red Wins!");
+        hanzipen_50pt.drawString("Red Wins!", ofGetWidth()/4.0 - s_width/2.0, ofGetHeight()/3.0 - s_height/2.0);
+    } else {
+        float s_width = hanzipen_50pt.stringWidth("Blue Wins!");
+        float s_height = hanzipen_50pt.stringHeight("Blue Wins!");
+        hanzipen_50pt.drawString("Blue Wins!", ofGetWidth()/4.0 - s_width/2.0, ofGetHeight()/3.0 - s_height/2.0);
+    }
     ofPopMatrix();
     ofPopStyle();
 }
