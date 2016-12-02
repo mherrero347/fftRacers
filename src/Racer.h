@@ -41,7 +41,8 @@ private:
     vector<int>* keyStatePtr;
     const int racer_radius = 10;
     const float move_accel = .8;
-    const float damping_accel = .3;
+    const float max_velocity = 3;
+    const float damping_accel = .5;
     const float velocity_epsilon = 0.1;
     
 };

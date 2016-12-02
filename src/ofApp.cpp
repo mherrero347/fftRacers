@@ -5,7 +5,7 @@ void ofApp::setup(){
     
     ofSetVerticalSync(true);
     ofSetCircleResolution(80);
-    ofBackground(54, 54, 54);
+    ofBackground(12, 12, 12);
     
     // 0 output channels,
     // 2 input channels
@@ -20,6 +20,8 @@ void ofApp::setup(){
     
     int bufferSize = 256;
     smoothedVol = 0.0;
+    game_over = false;
+    loser = -1;
     
     left.assign(bufferSize, 0.0);
     right.assign(bufferSize, 0.0);
@@ -32,16 +34,49 @@ void ofApp::setup(){
     soundStream.setup(this, 0, 2, 44100, bufferSize, 4);
 }
 
+void ofApp::draw_game_over_box(){
+    if(loser == 1){
+        ofSetColor(255, 0, 0, 127);
+    } else {
+        ofSetColor(0, 0, 255, 127);
+    }
+    ofFill();
+    ofDrawRectangle(0, 0, ofGetWidth()/2.0, 2*ofGetHeight()/3.0);
+    
+    if(loser == 1){
+        ofSetColor(255, 0, 0);
+    } else {
+        ofSetColor(0, 0, 255);
+    }
+    ofSetLineWidth(5);
+    ofNoFill();
+    ofDrawRectangle(0, 0, ofGetWidth()/2.0, 2*ofGetHeight()/3.0);
+}
+
+void ofApp::game_over_message() {
+    ofPushStyle();
+    ofPushMatrix();
+    ofTranslate(ofGetWidth()/4.0, ofGetHeight()/6.0, 0);
+    draw_game_over_box();
+    ofPopMatrix();
+    ofPopStyle();
+}
+
 //--------------------------------------------------------------
 void ofApp::update() {
-    for(int i = 0; i < NUM_PLAYERS; i++) {
-        column_array[i]->update();
+    if(!game_over) {
+        for(int i = 0; i < NUM_PLAYERS; i++) {
+            game_over = column_array[i]->update();
+            if(game_over){
+                loser = i+1;
+                break;
+            }
+        }
     }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    
     for(int i = 0; i < NUM_PLAYERS; i++) {
         ofPushStyle();
         ofPushMatrix();
@@ -50,6 +85,7 @@ void ofApp::draw(){
         ofPopMatrix();
         ofPopStyle();
     }
+    if(game_over) game_over_message();
 }
 
 //--------------------------------------------------------------

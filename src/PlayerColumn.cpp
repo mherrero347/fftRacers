@@ -69,15 +69,16 @@ bool PlayerColumn::in_key_state(int key) {
     return (find(keyState.begin(), keyState.end(), key) != keyState.end());
 }
 
-void PlayerColumn::update(){
+bool PlayerColumn::update(){
     add_current_volume_val();
-    check_for_collision();
+    if(check_for_collision()) return true;
     racer->update();
     if(in_key_state(gainKey) && gain_multiplier < 1000){
         gain_multiplier += 10;
     } else if (gain_multiplier > 100) {
         gain_multiplier -= 10;
     }
+    return false;
 }
 
 void PlayerColumn::resize() {
@@ -159,7 +160,7 @@ vector<ofPoint> PlayerColumn::get_danger_points(vector<ofPoint> danger_zone, flo
     return vector<ofPoint>(0);
 }
 
-void PlayerColumn::check_for_collision(){
+bool PlayerColumn::check_for_collision(){
     //for each y in the racer_range
     if(!(danger_zone_left.empty() || danger_zone_right.empty())){
         vector<float> y_range = racer->get_y_range();
@@ -170,16 +171,17 @@ void PlayerColumn::check_for_collision(){
             for(int i = 0; i < racer_edges.size(); i++) {
                 if(racer_edges[i].x >= racer->get_center_x()){
                     if(racer_edges[i].x >= right_dangers[0].x && racer_edges[i].x >= right_dangers[1].x){
-                        cout << "COLLISION!" << endl;
                         racer->set_racer_color(255, 255, 255);
+                        return true;
                     }
                 } else if(racer_edges[i].x <= racer->get_center_x()){
                     if(racer_edges[i].x <= left_dangers[0].x && racer_edges[i].x <= left_dangers[1].x){
-                        cout << "COLLISION!" << endl;
                         racer->set_racer_color(255, 255, 255);
+                        return true;
                     }
                 }
             }
         }
     }
+    return false;
 }

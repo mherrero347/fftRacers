@@ -17,9 +17,10 @@ class PlayerColumn {
     
     public:
         PlayerColumn(float* smoothedVolApp, vector<int>* keyStateApp, int playerNumber);
-        void update();
+        bool update();
         void draw();
         void resize();
+        bool check_for_collision();
 
     private:
         void calc_column_dimensions();
@@ -29,7 +30,6 @@ class PlayerColumn {
         bool in_key_state(int key);
         void assign_player_specific_fields(int playerNumber);
         vector<ofPoint> get_danger_points(vector<ofPoint> danger_zone, float y_coord);
-        void check_for_collision();
         void clear_danger_buffers();
     
         Racer *racer;

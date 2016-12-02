@@ -11,6 +11,9 @@ public:
     void update();
     void draw();
     
+    void draw_game_over_box();
+    void game_over_message();
+    
     void keyPressed(int key);
     void removeKeyFromState(int key);
     void keyReleased(int key);
@@ -29,6 +32,8 @@ public:
     vector <float> left, right, volume_array, gain_array;
     vector <int> key_state_arr;
     float smoothedVol;
+    bool game_over;
+    int loser;
     
     vector <PlayerColumn*> column_array;
     ofSoundStream soundStream;
