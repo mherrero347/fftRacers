@@ -38,14 +38,11 @@ void Racer::set_racer_position(float x, float y){
 
 void Racer::update(){
     update_racer_position();
-    cout << "accel = " + to_string(current_accel) << endl;
-    cout << "vel = " + to_string(current_vel) << endl;
 }
 
 void Racer::draw(){
     ofSetColor(racer_color);
-    //Change to racer_radius
-    ofDrawCircle(racer_posit, 10);
+    ofDrawCircle(racer_posit, racer_radius);
 }
 
 void Racer::resize(float racer_perc_from_left, int new_width, int new_height){
@@ -54,8 +51,12 @@ void Racer::resize(float racer_perc_from_left, int new_width, int new_height){
     racer_posit.set(column_width * racer_perc_from_left, (column_height*4)/5.0);
 }
 
-void Racer::get_racer_edge(float y_level){
-    
+vector <ofPoint> Racer::get_x_edges(float y_level){
+    vector <ofPoint> points;
+    float dist_from_center = sqrt(pow(racer_radius, 2) - pow(abs(racer_posit.y - y_level), 2));
+    points.push_back(ofPoint(racer_posit.x-dist_from_center, y_level));
+    if(dist_from_center > 0) points.push_back(ofPoint(racer_posit.x+dist_from_center, y_level));
+    return points;
 }
 
 void Racer::update_racer_position(){
@@ -91,6 +92,26 @@ bool Racer::in_key_state(int key) {
 
 float Racer::get_center_x() {
     return racer_posit.x;
+}
+
+float Racer::get_center_y() {
+    return racer_posit.y;
+}
+
+vector<float> Racer::get_y_range(){
+    vector<float> y_range;
+    for(float i = racer_posit.y - racer_radius; i <= racer_posit.y + racer_radius; i++){
+        y_range.push_back(i);
+    }
+    return y_range;
+}
+
+float Racer::get_top_y(){
+    return racer_posit.y + racer_radius;
+}
+
+float Racer::get_bottom_y(){
+    return racer_posit.y - racer_radius;
 }
 
 void Racer::set_move_keys(int left, int right) {

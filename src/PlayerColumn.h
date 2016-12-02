@@ -28,10 +28,15 @@ class PlayerColumn {
         void draw_volume_walls();
         bool in_key_state(int key);
         void assign_player_specific_fields(int playerNumber);
+        vector<ofPoint> get_danger_points(vector<ofPoint> danger_zone, float y_coord);
+        void check_for_collision();
+        void clear_danger_buffers();
     
         Racer *racer;
         int gainKey;
         vector <tuple <float,float>> volHistory;
+        vector <ofPoint> danger_zone_left;
+        vector <ofPoint> danger_zone_right;
         float scaledVol, gain_multiplier, column_width, column_height;
         float* smoothedVolPtr;
         vector<int>* keyStatePtr;

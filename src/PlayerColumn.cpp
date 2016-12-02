@@ -10,6 +10,7 @@
 #include "Racer.h"
 #include "ofMain.h"
 #include <iostream>
+#include <string>
 #include <algorithm>
 
 void PlayerColumn::calc_column_dimensions() {
@@ -70,6 +71,7 @@ bool PlayerColumn::in_key_state(int key) {
 
 void PlayerColumn::update(){
     add_current_volume_val();
+    check_for_collision();
     racer->update();
     if(in_key_state(gainKey) && gain_multiplier < 1000){
         gain_multiplier += 10;
@@ -84,20 +86,31 @@ void PlayerColumn::resize() {
     racer->resize(racer_perc_from_left, column_width, column_height);
 }
 
+void PlayerColumn::clear_danger_buffers(){
+    if(danger_zone_left.size() > 0 && danger_zone_right.size() > 0){
+        danger_zone_left.erase(danger_zone_left.begin(), danger_zone_left.end());
+        danger_zone_right.erase(danger_zone_right.begin(), danger_zone_right.end());
+    }
+}
+
 void PlayerColumn::draw_volume_walls() {
+    clear_danger_buffers();
     ofSetColor(245, 58, 135);
     ofFill();
-    
     float step_size = column_height/volHistory.size();
-    
-    //draw volume history on the roof
+    //draw volume history on the left
     ofBeginShape();
     for (unsigned int i = 0; i < volHistory.size(); i++){
         float y_position = column_height - (i*step_size);
+        float x_position;
         if(i == 0 || i == volHistory.size() -1){
-            ofVertex(0, y_position);
+            x_position = 0;
         } else {
-            ofVertex(get<0>(volHistory[i]) * get<1>(volHistory[i]), y_position);
+            x_position = get<0>(volHistory[i]) * get<1>(volHistory[i]);
+        }
+        ofVertex(x_position, y_position);
+        if (y_position <= racer->get_top_y() + step_size && y_position >= racer->get_bottom_y() - step_size){
+            danger_zone_left.push_back(ofPoint(x_position, y_position));
         }
     }
     ofEndShape(false);
@@ -106,10 +119,15 @@ void PlayerColumn::draw_volume_walls() {
     ofBeginShape();
     for (unsigned int i = 0; i < volHistory.size(); i++){
         float y_position = column_height - (i*step_size);
+        float x_position;
         if(i == 0 || i == volHistory.size() -1){
-            ofVertex(column_width, y_position);
+            x_position = column_width;
         } else {
-            ofVertex(column_width - (get<0>(volHistory[i]) * get<1>(volHistory[i])), y_position);
+            x_position = column_width - (get<0>(volHistory[i]) * get<1>(volHistory[i]));
+        }
+        ofVertex(x_position, y_position);
+        if (y_position <= racer->get_top_y() + step_size && y_position >= racer->get_bottom_y() - step_size){
+            danger_zone_right.push_back(ofPoint(x_position, y_position));
         }
     }
     ofEndShape(false);
@@ -125,4 +143,43 @@ void PlayerColumn::draw() {
     draw_border();
     draw_volume_walls();
     racer->draw();
+}
+
+vector<ofPoint> PlayerColumn::get_danger_points(vector<ofPoint> danger_zone, float y_coord){
+    //for each pair of points in the danger zone
+    for(int i = 0; i < danger_zone.size(); i++){
+        //if the y_coordinate is between the y values of the danger points
+        float upper_y = danger_zone[i].y;
+        float lower_y = danger_zone[i+1].y;
+        if(y_coord <= upper_y && y_coord >= lower_y){
+            vector<ofPoint> danger_points(danger_zone.begin()+i, danger_zone.begin()+i+2);
+            return danger_points;
+        }
+    }
+    return vector<ofPoint>(0);
+}
+
+void PlayerColumn::check_for_collision(){
+    //for each y in the racer_range
+    if(!(danger_zone_left.empty() || danger_zone_right.empty())){
+        vector<float> y_range = racer->get_y_range();
+        for(int i = 0; i < y_range.size(); i++){
+            vector<ofPoint> racer_edges = racer->get_x_edges(y_range[i]);
+            vector<ofPoint> left_dangers = get_danger_points(danger_zone_left, y_range[i]);
+            vector<ofPoint> right_dangers = get_danger_points(danger_zone_right, y_range[i]);
+            for(int i = 0; i < racer_edges.size(); i++) {
+                if(racer_edges[i].x >= racer->get_center_x()){
+                    if(racer_edges[i].x >= right_dangers[0].x && racer_edges[i].x >= right_dangers[1].x){
+                        cout << "COLLISION!" << endl;
+                        racer->set_racer_color(255, 255, 255);
+                    }
+                } else if(racer_edges[i].x <= racer->get_center_x()){
+                    if(racer_edges[i].x <= left_dangers[0].x && racer_edges[i].x <= left_dangers[1].x){
+                        cout << "COLLISION!" << endl;
+                        racer->set_racer_color(255, 255, 255);
+                    }
+                }
+            }
+        }
+    }
 }
