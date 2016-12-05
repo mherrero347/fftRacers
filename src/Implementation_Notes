@@ -4,13 +4,10 @@ FEATURE CHANGE = make overheating cause shaking in both racers at the same time,
 
 
 ### Now ####
-    - racer
-        - implement acceleration-velocity based movement
+	
 
 ### Next ####
-    - check for collisions
-        - maybe store a vector of all points put into the volume walls as they're put in?
-    - implement gain power-up lanes
-    - implement multi-microphone input
+    	- implement gain power-up lanes
 
 ### In A Bit ####
+	- restart button?

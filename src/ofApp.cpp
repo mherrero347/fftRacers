@@ -22,7 +22,7 @@ void ofApp::setup(){
     smoothedVol = 0.0;
     game_over = false;
     loser = -1;
-    hanzipen_50pt.load("Arial", 50);
+    hanzipen_50pt.load("HanziPen TC", 50);
     
     left.assign(bufferSize, 0.0);
     right.assign(bufferSize, 0.0);
@@ -72,6 +72,8 @@ void ofApp::game_over_message() {
     ofPopMatrix();
     ofPopStyle();
 }
+
+
 
 //--------------------------------------------------------------
 void ofApp::update() {
@@ -158,43 +160,4 @@ void ofApp::keyReleased(int key){
     removeKeyFromState(key);
 }
 
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
-    
-}
 
