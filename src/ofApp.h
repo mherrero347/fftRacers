@@ -9,6 +9,8 @@ class ofApp : public ofBaseApp{
     
 public:
     
+    ~ofApp();
+    
     void setup();
     void update();
     void draw();
@@ -21,7 +23,7 @@ public:
     void keyReleased(int key);
     void windowResized(int w, int h);
 				
-    void audioIn(float * input, int bufferSize, int nChannels);
+    void audioIn(vector<float> input, int bufferSize, int nChannels);
     
     vector <float> left, right, volume_array, gain_array;
     vector <int> key_state_arr;

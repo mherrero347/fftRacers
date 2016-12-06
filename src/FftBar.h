@@ -21,7 +21,7 @@ public:
     bool update();
     void draw();
     void resize();
-    void storeAppAudioCallback(std::function<void(float*, int, int)> _audioInApp);
+    void storeAppAudioCallback(std::function<void(vector<float>, int, int)> _audioInApp);
     
 private:
     void calc_dimensions();

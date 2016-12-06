@@ -1,6 +1,10 @@
 #include "ofApp.h"
 using namespace std::placeholders;
 
+ofApp::~ofApp(){
+    column_array.clear();
+}
+
 //--------------------------------------------------------------
 void ofApp::setup(){
     
@@ -54,7 +58,7 @@ void ofApp::draw_game_over_box(){
 void ofApp::game_over_message() {
     ofPushStyle();
     ofPushMatrix();
-    ofTranslate(ofGetWidth()/4.0, ofGetHeight()/6.0, 0);
+    ofTranslate(ofGetWidth()/4.0, ofGetHeight()/12.0, 0);
     draw_game_over_box();
     ofSetColor(255);
     if (loser == 1) {
@@ -106,11 +110,7 @@ void ofApp::draw(){
 }
 
 //--------------------------------------------------------------
-void ofApp::audioIn(float * input, int bufferSize, int nChannels){
-    
-    if(input == NULL && bufferSize == -69 && nChannels == -69) {
-        cout << "got here" <<endl;
-    } else {
+void ofApp::audioIn(vector<float> input, int bufferSize, int nChannels){
     
     float curVol = 0.0;
     
@@ -122,6 +122,7 @@ void ofApp::audioIn(float * input, int bufferSize, int nChannels){
         left[i]		= input[i*2]*0.5;
         right[i]	= input[i*2+1]*0.5;
         
+        float start_cur = curVol;
         curVol += left[i] * left[i];
         curVol += right[i] * right[i];
         numCounted+=2;
@@ -138,7 +139,6 @@ void ofApp::audioIn(float * input, int bufferSize, int nChannels){
     
     for(int i = 0; i < volume_array.size(); i++){
         volume_array[i] = smoothedVol;
-    }
     }
 }
 

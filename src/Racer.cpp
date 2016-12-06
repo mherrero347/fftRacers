@@ -118,3 +118,7 @@ void Racer::set_move_keys(int left, int right) {
     move_left_key = left;
     move_right_key = right;
 }
+
+int Racer::get_radius(){
+    return racer_radius;
+}

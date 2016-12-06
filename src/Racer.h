@@ -28,6 +28,7 @@ public:
     vector<float> get_y_range();
     float get_top_y();
     float get_bottom_y();
+    int get_radius();
     
 private:
     void update_racer_position();

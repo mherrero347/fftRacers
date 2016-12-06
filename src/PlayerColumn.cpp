@@ -13,6 +13,10 @@
 #include <string>
 #include <algorithm>
 
+PlayerColumn::~PlayerColumn(){
+    delete[] racer;
+}
+
 void PlayerColumn::calc_column_dimensions() {
     column_width = ofGetWidth()/4.0;
     column_height = 2*ofGetHeight()/3.0;
@@ -42,7 +46,7 @@ PlayerColumn::PlayerColumn(float* smoothedVolApp, vector<int>* keyStateApp, int 
 {
     calc_column_dimensions();
     // init power-up values (gain_multiplier, overheat, [sweet spot values])
-    gain_multiplier = 100;
+    gain_multiplier = 1;
     volHistory.assign(VOL_BUFFER_SIZE, make_tuple(0.0, 0.0));
     scaledVol = 0.0;
     // init racer position point
@@ -53,7 +57,8 @@ PlayerColumn::PlayerColumn(float* smoothedVolApp, vector<int>* keyStateApp, int 
 
 void PlayerColumn::add_current_volume_val() {
     //lets scale the vol up to a 0-1 range
-    scaledVol = ofMap(*smoothedVolPtr, 0.0, 0.17, 0.0, 1.0, true);
+    float curr_smoothed = *smoothedVolPtr;
+    scaledVol = ofMap(curr_smoothed, 0.0, 0.17, 0.0, ((column_width/2.0)-(racer->get_radius()+5))/2.0, true);
     
     //lets record the volume into an array
     volHistory.push_back(make_tuple(scaledVol, gain_multiplier));
@@ -73,10 +78,10 @@ bool PlayerColumn::update(){
     add_current_volume_val();
     if(check_for_collision()) return true;
     racer->update();
-    if(in_key_state(gainKey) && gain_multiplier < 1000){
-        gain_multiplier += 10;
-    } else if (gain_multiplier > 100) {
-        gain_multiplier -= 10;
+    if(in_key_state(gainKey) && gain_multiplier < 2){
+        gain_multiplier += 0.1;
+    } else if (gain_multiplier > 1) {
+        gain_multiplier -= 0.1;
     }
     return false;
 }

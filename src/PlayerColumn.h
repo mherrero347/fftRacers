@@ -14,6 +14,7 @@
 #include "Racer.h"
 
 class PlayerColumn {
+    ~PlayerColumn();
     
     public:
         PlayerColumn(float* smoothedVolApp, vector<int>* keyStateApp, int playerNumber);

@@ -15,6 +15,8 @@
 FftBar::FftBar(){
     calc_dimensions();
     fft.setup();
+    fft.setNumFFTBins(10);
+    fft.setVolumeRange(bar_height);
 }
 
 bool FftBar::update(){
@@ -34,7 +36,7 @@ void FftBar::resize(){
     calc_dimensions();
 }
 
-void FftBar::storeAppAudioCallback(std::function<void(float*, int, int)> _audioInApp){
+void FftBar::storeAppAudioCallback(std::function<void(vector<float>, int, int)> _audioInApp){
     fft.storeAppAudioCallback(_audioInApp);
 }
 
@@ -61,7 +63,7 @@ void FftBar::draw_bin_bars(){
             ofSetColor(100,100,200);
         }
         ofNoFill();
-        ofDrawRectangle(bar_width*((float)i/fft.getNumFFTbins()), bar_height-20, bar_width/fft.getNumFFTbins(), -ofMap(spectrum[i], 0, fft.getVolumeRange(), 0, bar_height -50));
+        ofDrawRectangle(bar_width*((float)i/fft.getNumFFTbins()), bar_height, bar_width/fft.getNumFFTbins(), -ofMap(spectrum[i], 0, fft.getVolumeRange(), 0, bar_height -50));
     }
     ofPopStyle();
 }
