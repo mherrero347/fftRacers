@@ -13,14 +13,15 @@
 #include "ofMain.h"
 #include "ofxProcessFFT.h"
 
+template<class T>
 class FftBar {
     
 public:
-    FftBar();
+    FftBar(T *parent);
     bool update();
     void draw();
     void resize();
-    void setSoundStream(ofSoundStream* streamPtr);
+    void storeAppPtrForCallback(void (T::*appAudioIn)(float*, int, int));
     
 private:
     void calc_dimensions();
@@ -28,6 +29,7 @@ private:
     
     ProcessFFT fft;
     float bar_width, bar_height;
+    T* appPtr;
 };
 
 

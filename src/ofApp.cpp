@@ -1,4 +1,11 @@
 #include "ofApp.h"
+ofApp::ofApp() : fft_bar(0) {
+    
+}
+
+ofApp::~ofApp() {
+    
+}
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -32,7 +39,10 @@ void ofApp::setup(){
         column_array.push_back(new PlayerColumn(&volume_array[i], &key_state_arr, i+1));
     }
     
-    soundStream.setup(this, 0, 2, 44100, bufferSize, 4);
+    fft_bar = new FftBar<ofApp>(this);
+    fft_bar->storeAppPtrForCallback(&ofApp::audioIn);
+    //setAppPtrForCallback(&ofApp::audioIn);
+    //soundStream.setup(this, 0, 2, 44100, bufferSize, 4);
 }
 
 void ofApp::draw_game_over_box(){
@@ -85,6 +95,7 @@ void ofApp::update() {
                 break;
             }
         }
+        fft_bar->update();
     }
 }
 
@@ -93,12 +104,18 @@ void ofApp::draw(){
     for(int i = 0; i < NUM_PLAYERS; i++) {
         ofPushStyle();
         ofPushMatrix();
-        ofTranslate(((i+1)*ofGetWidth())/4.0, ofGetHeight()/6.0, 0);
+        ofTranslate(((i+1)*ofGetWidth())/4.0, ofGetHeight()/12.0, 0);
         column_array[i]->draw();
         ofPopMatrix();
         ofPopStyle();
     }
     if(game_over) game_over_message();
+    ofPushStyle();
+    ofPushMatrix();
+    ofTranslate(ofGetWidth()/12.0, 9*ofGetHeight()/12.0, 0);
+    fft_bar->draw();
+    ofPopMatrix();
+    ofPopStyle();
 }
 
 //--------------------------------------------------------------
@@ -138,6 +155,7 @@ void ofApp::windowResized(int w, int h){
     for(int i = 0; i < NUM_PLAYERS; i++) {
         column_array[i]->resize();
     }
+    fft_bar->resize();
 }
 
 //--------------------------------------------------------------

@@ -12,16 +12,20 @@
 //#### PUBLIC FUNCTIONS ####
 //##########################
 
-FftBar::FftBar(){
+template <class T>
+FftBar<T>::FftBar(T *parent){
+    appPtr = parent;
     calc_dimensions();
     fft.setup();
 }
 
-bool FftBar::update(){
+template <class T>
+bool FftBar<T>::update(){
     fft.update();
 }
 
-void FftBar::draw(){
+template <class T>
+void FftBar<T>::draw(){
     ofPushStyle();
     ofSetColor(245, 58, 135);
     ofNoFill();
@@ -30,20 +34,28 @@ void FftBar::draw(){
     ofPopStyle();
 }
 
-void FftBar::resize(){
+template <class T>
+void FftBar<T>::resize(){
     calc_dimensions();
+}
+
+template <class T>
+void FftBar<T>::storeAppPtrForCallback(void (T::*appAudioIn)(float*, int, int)){
+    
 }
 
 //###########################
 //#### PRIVATE FUNCTIONS ####
 //###########################
 
-void FftBar::calc_dimensions() {
+template <class T>
+void FftBar<T>::calc_dimensions() {
     bar_width = 5*ofGetWidth()/6.0;
     bar_height = ofGetHeight()/6.0;
 }
 
-void FftBar::draw_bin_bars(){
+template <class T>
+void FftBar<T>::draw_bin_bars(){
     //not normalized
     ofPushStyle();
     ofSetRectMode(OF_RECTMODE_CORNER);

@@ -2,10 +2,14 @@
 
 #include "ofMain.h"
 #include "PlayerColumn.h"
+#include "FftBar.h"
 
 class ofApp : public ofBaseApp{
     
 public:
+    
+    ofApp();
+    ~ofApp();
     
     void setup();
     void update();
@@ -28,7 +32,8 @@ public:
     int loser;
     
     vector <PlayerColumn*> column_array;
+    FftBar<ofApp>* fft_bar;
     ofTrueTypeFont hanzipen_50pt;
-    ofSoundStream soundStream;
+    //ofSoundStream soundStream;
     const int NUM_PLAYERS = 2;
 };
