@@ -1,2 +1,3 @@
 ofxFft
+ofxSimpleTimer
 ofxSmartFont

@@ -18,7 +18,7 @@ PlayerColumn::~PlayerColumn(){
 }
 
 void PlayerColumn::calc_column_dimensions() {
-    column_width = ofGetWidth()/4.0;
+    column_width = ofGetWidth()/3.0;
     column_height = 2*ofGetHeight()/3.0;
     //get power-up lane positions
 }
@@ -27,13 +27,11 @@ void PlayerColumn::assign_player_specific_fields(int playerNumber) {
     switch(playerNumber) {
         case 1: {
             racer->set_move_keys('a','d');
-            gainKey = 'f';
             racer->set_racer_color(0, 0, 255);
             break;
         }
         case 2: {
             racer->set_move_keys(OF_KEY_LEFT, OF_KEY_RIGHT);
-            gainKey = 'g';
             racer->set_racer_color(255, 0, 0);
             break;
         }
@@ -82,9 +80,9 @@ bool PlayerColumn::update(){
     racer->update();
     vector<bool> isClipping = *isClippingPtr;
     if(isClipping[playerNumber-1] && gain_multiplier < 2){
-        gain_multiplier += 0.05;
+        gain_multiplier += 0.02;
     } else if (gain_multiplier > 1) {
-        gain_multiplier -= 0.05;
+        gain_multiplier -= 0.02;
     }
     return false;
 }

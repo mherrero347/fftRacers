@@ -44,7 +44,7 @@ void ofApp::draw_game_over_box(){
         ofSetColor(0, 0, 255, 127);
     }
     ofFill();
-    ofDrawRectangle(0, 0, ofGetWidth()/2.0, 2*ofGetHeight()/3.0);
+    ofDrawRectangle(0, 0, 2*ofGetWidth()/3.0, 2*ofGetHeight()/3.0);
     
     if(loser == 1){
         ofSetColor(255, 0, 0);
@@ -53,23 +53,23 @@ void ofApp::draw_game_over_box(){
     }
     ofSetLineWidth(5);
     ofNoFill();
-    ofDrawRectangle(0, 0, ofGetWidth()/2.0, 2*ofGetHeight()/3.0);
+    ofDrawRectangle(0, 0, 2*ofGetWidth()/3.0, 2*ofGetHeight()/3.0);
 }
 
 void ofApp::game_over_message() {
     ofPushStyle();
     ofPushMatrix();
-    ofTranslate(ofGetWidth()/4.0, ofGetHeight()/12.0, 0);
+    ofTranslate(ofGetWidth()/6.0, ofGetHeight()/12.0, 0);
     draw_game_over_box();
     ofSetColor(255);
     if (loser == 1) {
         float s_width = hanzipen_50pt.stringWidth("Red Wins!");
         float s_height = hanzipen_50pt.stringHeight("Red Wins!");
-        hanzipen_50pt.drawString("Red Wins!", ofGetWidth()/4.0 - s_width/2.0, ofGetHeight()/3.0 - s_height/2.0);
+        hanzipen_50pt.drawString("Red Wins!", ofGetWidth()/3.0 - s_width/2.0, 5*ofGetHeight()/12.0 - s_height/2.0);
     } else {
         float s_width = hanzipen_50pt.stringWidth("Blue Wins!");
         float s_height = hanzipen_50pt.stringHeight("Blue Wins!");
-        hanzipen_50pt.drawString("Blue Wins!", ofGetWidth()/4.0 - s_width/2.0, ofGetHeight()/3.0 - s_height/2.0);
+        hanzipen_50pt.drawString("Blue Wins!", ofGetWidth()/3.0 - s_width/2.0, 5*ofGetHeight()/12.0 - s_height/2.0);
     }
     ofPopMatrix();
     ofPopStyle();
@@ -97,7 +97,7 @@ void ofApp::draw(){
     for(int i = 0; i < NUM_PLAYERS; i++) {
         ofPushStyle();
         ofPushMatrix();
-        ofTranslate(((i+1)*ofGetWidth())/4.0, ofGetHeight()/12.0, 0);
+        ofTranslate(ofGetWidth()/6.0 + i*(ofGetWidth()/3.0), ofGetHeight()/12.0, 0);
         column_array[i]->draw();
         ofPopMatrix();
         ofPopStyle();

@@ -13,6 +13,7 @@
 #include <functional>
 #include "ofMain.h"
 #include "ofxProcessFFT.h"
+#include "ofxSimpleTimer.h"
 
 class FftBar {
     
@@ -26,12 +27,17 @@ public:
     
 private:
     void calc_dimensions();
+    vector<float> get_game_spectrum();
     void draw_bin_bars();
     bool bin_passed_thresh(int ind);
+    void changePlayerBars(int &i);
     
     ProcessFFT fft;
+    ofxSimpleTimer player_bar_timer;
     float bar_width, bar_height;
-    int currBinPlayerOne, currBinPlayerTwo;
+    int currBinPlayerOne, currBinPlayerTwo, game_bins;
+    
+    const int TRASH_PREFIX_BINS = 11;
 };
 
 

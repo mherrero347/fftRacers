@@ -43,7 +43,7 @@ class PlayerColumn {
         float* smoothedVolPtr;
         vector<int>* keyStatePtr;
         vector<bool>* isClippingPtr;
-        const int VOL_BUFFER_SIZE = 150;
+        const int VOL_BUFFER_SIZE = 50;
     
 };
 

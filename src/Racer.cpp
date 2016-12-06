@@ -82,7 +82,7 @@ void Racer::update_accel_and_vel(){
     } else {
         current_accel = 0;
     }
-    current_vel += current_accel;
+    current_vel += current_accel  + ofRandom(-1.2, 1.2);
 }
 
 bool Racer::in_key_state(int key) {
