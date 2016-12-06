@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "PlayerColumn.h"
 #include "FftBar.h"
+#include <functional>
 
 class ofApp : public ofBaseApp{
     

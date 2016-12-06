@@ -34,9 +34,9 @@ void FftBar::resize(){
     calc_dimensions();
 }
 
-/*void FftBar::storeAppPtrForCallback(void (T::*appAudioIn)(float*, int, int)){
-    
-}*/
+void FftBar::storeAppAudioCallback(std::function<void(float*, int, int)> _audioInApp){
+    fft.storeAppAudioCallback(_audioInApp);
+}
 
 //###########################
 //#### PRIVATE FUNCTIONS ####

@@ -1,4 +1,6 @@
 #include "ofApp.h"
+using namespace std::placeholders;
+
 /*ofApp::ofApp() {
     
 }
@@ -39,6 +41,9 @@ void ofApp::setup(){
         column_array.push_back(new PlayerColumn(&volume_array[i], &key_state_arr, i+1));
     }
     
+    //"this" is a pointer, not an object :P
+    auto audioInAuto = std::bind(&ofApp::audioIn, this, _1, _2, _3);
+    fft_bar.storeAppAudioCallback(audioInAuto);
     
     //fft_bar->storeAppPtrForCallback(&ofApp::audioIn);
     //setAppPtrForCallback(&ofApp::audioIn);
@@ -121,6 +126,10 @@ void ofApp::draw(){
 //--------------------------------------------------------------
 void ofApp::audioIn(float * input, int bufferSize, int nChannels){
     
+    if(input == NULL && bufferSize == -69 && nChannels == -69) {
+        cout << "got here" <<endl;
+    } else {
+    
     float curVol = 0.0;
     
     // samples are "interleaved"
@@ -147,6 +156,7 @@ void ofApp::audioIn(float * input, int bufferSize, int nChannels){
     
     for(int i = 0; i < volume_array.size(); i++){
         volume_array[i] = smoothedVol;
+    }
     }
 }
 

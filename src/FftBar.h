@@ -10,6 +10,7 @@
 #define FftBar_h
 
 #include <stdio.h>
+#include <functional>
 #include "ofMain.h"
 #include "ofxProcessFFT.h"
 
@@ -20,7 +21,7 @@ public:
     bool update();
     void draw();
     void resize();
-    //void storeAppPtrForCallback(void (*appAudioIn)(float*, int, int));
+    void storeAppAudioCallback(std::function<void(float*, int, int)> _audioInApp);
     
 private:
     void calc_dimensions();
