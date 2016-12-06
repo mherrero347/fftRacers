@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/FftBar.cpp"
-            timestampString = "502678695.861458"
+            timestampString = "502695167.27923"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109">
+            startingLineNumber = "113"
+            endingLineNumber = "113">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -40,7 +40,7 @@
                   moduleName = "fftRacersDebug"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Applications/OpenFrameworks/apps/myApps/fftRacers/../../../libs/openFrameworks/types/ofBaseTypes.h"
-                  timestampString = "502680335.909558"
+                  timestampString = "502695169.507698"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "309"
@@ -55,7 +55,7 @@
                   moduleName = "fftRacersDebug"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Applications/OpenFrameworks/libs/openFrameworksCompiled/project/osx/../../../openFrameworks/types/ofBaseTypes.h"
-                  timestampString = "502680335.912751"
+                  timestampString = "502695169.511609"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "317"
@@ -70,7 +70,7 @@
                   moduleName = "fftRacersDebug"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Applications/OpenFrameworks/libs/openFrameworksCompiled/project/osx/../../../openFrameworks/types/ofBaseTypes.h"
-                  timestampString = "502680335.916319"
+                  timestampString = "502695169.514356"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "317"
@@ -87,28 +87,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../addons/ofxFft/src/ofxEasyFft.cpp"
-            timestampString = "502677544.670818"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "ofxEasyFft::audioReceived(float* input, int bufferSize, int nChannels)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/PlayerColumn.cpp"
-            timestampString = "502680402.020361"
+            timestampString = "502695167.27923"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "56"
             endingLineNumber = "56"
-            landmarkName = "PlayerColumn::add_current_volume_val()"
+            landmarkName = "ofxEasyFft::audioReceived(float* input, int bufferSize, int nChannels)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

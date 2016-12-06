@@ -8,8 +8,8 @@ class ofApp : public ofBaseApp{
     
 public:
     
-    ofApp();
-    ~ofApp();
+    //ofApp();
+    //~ofApp();
     
     void setup();
     void update();
@@ -32,7 +32,7 @@ public:
     int loser;
     
     vector <PlayerColumn*> column_array;
-    FftBar<ofApp>* fft_bar;
+    FftBar fft_bar;
     ofTrueTypeFont hanzipen_50pt;
     //ofSoundStream soundStream;
     const int NUM_PLAYERS = 2;

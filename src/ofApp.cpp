@@ -1,11 +1,11 @@
 #include "ofApp.h"
-ofApp::ofApp() : fft_bar(0) {
+/*ofApp::ofApp() {
     
 }
 
 ofApp::~ofApp() {
     
-}
+}*/
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -39,8 +39,8 @@ void ofApp::setup(){
         column_array.push_back(new PlayerColumn(&volume_array[i], &key_state_arr, i+1));
     }
     
-    fft_bar = new FftBar<ofApp>(this);
-    fft_bar->storeAppPtrForCallback(&ofApp::audioIn);
+    
+    //fft_bar->storeAppPtrForCallback(&ofApp::audioIn);
     //setAppPtrForCallback(&ofApp::audioIn);
     //soundStream.setup(this, 0, 2, 44100, bufferSize, 4);
 }
@@ -95,7 +95,7 @@ void ofApp::update() {
                 break;
             }
         }
-        fft_bar->update();
+        fft_bar.update();
     }
 }
 
@@ -113,7 +113,7 @@ void ofApp::draw(){
     ofPushStyle();
     ofPushMatrix();
     ofTranslate(ofGetWidth()/12.0, 9*ofGetHeight()/12.0, 0);
-    fft_bar->draw();
+    fft_bar.draw();
     ofPopMatrix();
     ofPopStyle();
 }
@@ -155,7 +155,7 @@ void ofApp::windowResized(int w, int h){
     for(int i = 0; i < NUM_PLAYERS; i++) {
         column_array[i]->resize();
     }
-    fft_bar->resize();
+    fft_bar.resize();
 }
 
 //--------------------------------------------------------------
