@@ -9,9 +9,6 @@ class ofApp : public ofBaseApp{
     
 public:
     
-    //ofApp();
-    //~ofApp();
-    
     void setup();
     void update();
     void draw();
@@ -35,6 +32,5 @@ public:
     vector <PlayerColumn*> column_array;
     FftBar fft_bar;
     ofTrueTypeFont hanzipen_50pt;
-    //ofSoundStream soundStream;
     const int NUM_PLAYERS = 2;
 };

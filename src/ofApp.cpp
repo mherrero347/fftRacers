@@ -1,14 +1,6 @@
 #include "ofApp.h"
 using namespace std::placeholders;
 
-/*ofApp::ofApp() {
-    
-}
-
-ofApp::~ofApp() {
-    
-}*/
-
 //--------------------------------------------------------------
 void ofApp::setup(){
     
@@ -21,11 +13,6 @@ void ofApp::setup(){
     // 44100 samples per second
     // 256 samples per buffer
     // 4 num buffers (latency)
-    
-    //soundStream.printDeviceList();
-    
-    //if you want to set a different device id
-    //soundStream.setDeviceID(0); //bear in mind the device id corresponds to all audio devices, including  input-only and output-only devices.
     
     int bufferSize = 256;
     smoothedVol = 0.0;
@@ -41,13 +28,8 @@ void ofApp::setup(){
         column_array.push_back(new PlayerColumn(&volume_array[i], &key_state_arr, i+1));
     }
     
-    //"this" is a pointer, not an object :P
     auto audioInAuto = std::bind(&ofApp::audioIn, this, _1, _2, _3);
     fft_bar.storeAppAudioCallback(audioInAuto);
-    
-    //fft_bar->storeAppPtrForCallback(&ofApp::audioIn);
-    //setAppPtrForCallback(&ofApp::audioIn);
-    //soundStream.setup(this, 0, 2, 44100, bufferSize, 4);
 }
 
 void ofApp::draw_game_over_box(){
