@@ -32,6 +32,7 @@ public:
     int loser;
     
     vector <PlayerColumn*> column_array;
+    vector <bool> isClippingArr;
     FftBar fft_bar;
     ofTrueTypeFont hanzipen_50pt;
     const int NUM_PLAYERS = 2;

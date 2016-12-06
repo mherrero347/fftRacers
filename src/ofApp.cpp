@@ -27,9 +27,10 @@ void ofApp::setup(){
     left.assign(bufferSize, 0.0);
     right.assign(bufferSize, 0.0);
     volume_array.assign(NUM_PLAYERS, 0.0);
+    isClippingArr.assign(NUM_PLAYERS, false);
     
     for(int i = 0; i < NUM_PLAYERS; i++) {
-        column_array.push_back(new PlayerColumn(&volume_array[i], &key_state_arr, i+1));
+        column_array.push_back(new PlayerColumn(&volume_array[i], &key_state_arr, &isClippingArr, i+1));
     }
     
     auto audioInAuto = std::bind(&ofApp::audioIn, this, _1, _2, _3);
@@ -85,6 +86,7 @@ void ofApp::update() {
                 loser = i+1;
                 break;
             }
+            isClippingArr[i] = fft_bar.playerClipping(i+1);
         }
         fft_bar.update();
     }

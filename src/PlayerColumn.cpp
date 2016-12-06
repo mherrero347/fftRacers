@@ -40,9 +40,11 @@ void PlayerColumn::assign_player_specific_fields(int playerNumber) {
     }
 }
 
-PlayerColumn::PlayerColumn(float* smoothedVolApp, vector<int>* keyStateApp, int playerNumber) :
+PlayerColumn::PlayerColumn(float* smoothedVolApp, vector<int>* keyStateApp, vector<bool>* isClippingArrApp, int _playerNumber) :
     smoothedVolPtr(smoothedVolApp),
-    keyStatePtr(keyStateApp)
+    keyStatePtr(keyStateApp),
+    isClippingPtr(isClippingArrApp),
+    playerNumber(_playerNumber)
 {
     calc_column_dimensions();
     // init power-up values (gain_multiplier, overheat, [sweet spot values])
@@ -78,10 +80,11 @@ bool PlayerColumn::update(){
     add_current_volume_val();
     if(check_for_collision()) return true;
     racer->update();
-    if(in_key_state(gainKey) && gain_multiplier < 2){
-        gain_multiplier += 0.1;
+    vector<bool> isClipping = *isClippingPtr;
+    if(isClipping[playerNumber-1] && gain_multiplier < 2){
+        gain_multiplier += 0.05;
     } else if (gain_multiplier > 1) {
-        gain_multiplier -= 0.1;
+        gain_multiplier -= 0.05;
     }
     return false;
 }

@@ -17,7 +17,7 @@ class PlayerColumn {
     ~PlayerColumn();
     
     public:
-        PlayerColumn(float* smoothedVolApp, vector<int>* keyStateApp, int playerNumber);
+        PlayerColumn(float* smoothedVolApp, vector<int>* keyStateApp, vector<bool>* isClippingArrApp, int playerNumber);
         bool update();
         void draw();
         void resize();
@@ -35,12 +35,14 @@ class PlayerColumn {
     
         Racer *racer;
         int gainKey;
+        int playerNumber;
         vector <tuple <float,float>> volHistory;
         vector <ofPoint> danger_zone_left;
         vector <ofPoint> danger_zone_right;
         float scaledVol, gain_multiplier, column_width, column_height;
         float* smoothedVolPtr;
         vector<int>* keyStatePtr;
+        vector<bool>* isClippingPtr;
         const int VOL_BUFFER_SIZE = 150;
     
 };

@@ -22,13 +22,16 @@ public:
     void draw();
     void resize();
     void storeAppAudioCallback(std::function<void(vector<float>, int, int)> _audioInApp);
+    bool playerClipping(int player);
     
 private:
     void calc_dimensions();
     void draw_bin_bars();
+    bool bin_passed_thresh(int ind);
     
     ProcessFFT fft;
     float bar_width, bar_height;
+    int currBinPlayerOne, currBinPlayerTwo;
 };
 
 

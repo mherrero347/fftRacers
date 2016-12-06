@@ -15,8 +15,11 @@
 FftBar::FftBar(){
     calc_dimensions();
     fft.setup();
-    fft.setNumFFTBins(10);
+    fft.setNumFFTBins(15);
+    fft.setFFTpercentage(.04);
     fft.setVolumeRange(bar_height);
+    currBinPlayerOne = ofRandom(0, 15)/1;
+    currBinPlayerTwo = ofRandom(0, 15)/1;
 }
 
 bool FftBar::update(){
@@ -49,6 +52,11 @@ void FftBar::calc_dimensions() {
     bar_height = ofGetHeight()/6.0;
 }
 
+bool FftBar::bin_passed_thresh(int ind){
+    if(fft.getSpectrum().size()<=0) return false;
+    return ofMap(fft.getSpectrum()[ind], 0, fft.getVolumeRange(), 0, 1, true) >= 0.96;
+}
+
 void FftBar::draw_bin_bars(){
     //not normalized
     ofPushStyle();
@@ -56,14 +64,29 @@ void FftBar::draw_bin_bars(){
     ofSetLineWidth(2);
     vector<float> spectrum = fft.getSpectrum();
     for(int i=0; i<spectrum.size(); i++){ //for the number of columns
-        if (i==fft.getLoudBand()) {
+        if (i==currBinPlayerOne) {
+            ofSetColor(0,0,255);
+        }
+        else if (i==currBinPlayerTwo){
             ofSetColor(255,0,0);
+        } else {
+            ofSetColor(128);
         }
-        else{
-            ofSetColor(100,100,200);
+        if (bin_passed_thresh(i)) {
+            ofFill();
+        } else {
+            ofNoFill();
         }
-        ofNoFill();
-        ofDrawRectangle(bar_width*((float)i/fft.getNumFFTbins()), bar_height, bar_width/fft.getNumFFTbins(), -ofMap(spectrum[i], 0, fft.getVolumeRange(), 0, bar_height -50));
+        ofDrawRectangle(bar_width*((float)i/(fft.getNumFFTbins())), bar_height, bar_width/(fft.getNumFFTbins()), -bar_height*ofMap(spectrum[i], 0, fft.getVolumeRange(), 0, 1, true));
     }
     ofPopStyle();
+}
+
+bool FftBar::playerClipping(int player){
+    if(player == 1) {
+        return bin_passed_thresh(currBinPlayerOne);
+    } else {
+        return bin_passed_thresh(currBinPlayerTwo);
+    }
+    return false;
 }
