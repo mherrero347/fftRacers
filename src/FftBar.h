@@ -27,7 +27,9 @@ private:
     vector<float> get_game_spectrum();
     void draw_bin_bars();
     bool bin_passed_thresh(int ind);
-    void changePlayerBars(int &i);
+    void changePlayerBinsCallback(int &i);
+    void changePlayerBins();
+    int getNewPlayerBin(int bin, int opponent_bin);
     
     ProcessFFT fft;
     ofxSimpleTimer player_bar_timer;
@@ -35,6 +37,8 @@ private:
     int currBinPlayerOne, currBinPlayerTwo, game_bins;
     
     const int TRASH_PREFIX_BINS = 9;
+    const int NUM_FFT_BINS = 40;
+    const float BIN_CLIPPING_THRESH = 0.96;
 };
 
 

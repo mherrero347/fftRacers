@@ -204,7 +204,9 @@ void PlayerColumn::clear_danger_buffers(){
 
 /* Function: draw_volume_walls
  -------------------------------
- *
+ * This function draws the volume walls on the sides of the column, as well as keeping
+ * the danger_zone vectors updated with the ofPoint's representing the points where it's
+ * possible that the racer might run into a wall.
  */
 void PlayerColumn::draw_volume_walls() {
     clear_danger_buffers();
@@ -248,7 +250,7 @@ void PlayerColumn::draw_volume_walls() {
 
 /* Function: draw_border
  -------------------------------
- *
+ * This function draws the border around the edge of the column
  */
 void PlayerColumn::draw_border() {
     ofSetColor(245, 58, 135);
@@ -258,7 +260,11 @@ void PlayerColumn::draw_border() {
 
 /* Function: get_danger_points
  -------------------------------
- *
+ * This function takes in a vector of ofPoints, which is actual one of the danger_zone
+ * member vectors, as well as a y coordinate, and returns a vector containg the two 
+ * ofPoints in the danger_zone that are on either side of the passed y_coord (the y_coord is
+ * minimally less than the y coordinate of one of the ofPoints danger points, and minimally 
+ * greater than the other).
  */
 vector<ofPoint> PlayerColumn::get_danger_points(vector<ofPoint> danger_zone, float y_coord){
     //for each pair of points in the danger zone

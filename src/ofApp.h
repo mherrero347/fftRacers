@@ -27,7 +27,7 @@ public:
     FftBar fft_bar;
     ofTrueTypeFont hanzipen_50pt;
     
-    vector <float> left, right, volume_array, gain_array;
+    vector <float> left, right;
     vector <int> key_state_arr;
     vector <bool> isClippingArr;
     

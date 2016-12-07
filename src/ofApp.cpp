@@ -1,6 +1,6 @@
 /* File: ofApp.cpp
  -------------------------------
- *
+ * 
  */
 
 
@@ -13,20 +13,25 @@ using namespace std::placeholders;
 
 /* Destructor: ~ofApp
  -------------------------------
- *  
+ * This is the destructor of the ofApp class. It frees the memory assigned to 
+ * each of the PlayerColumn objects in the column_array vector.
  */
 ofApp::~ofApp(){
     column_array.clear();
 }
 
-/* Function: draw_game_over_box
+/* Function: setup
  -------------------------------
- *
+ * This is the setup function for the ofApp class. Initializes the values of some member
+ * variables and object (smoothedVol, game_over, loser, hanzipen_50pt), initializes some
+ * member arrays (left, right, volume_array, and isClippingArr), initializes the vector
+ * that holds the player columns and allocates memory for those objects, and setups the
+ * forward call wrap object so that the audioRecieved method inside the ofxEasyFFT can
+ * call this class's audioIn function.
  */
 void ofApp::setup(){
     
     ofSetVerticalSync(true);
-    //ofSetCircleResolution(80);
     ofBackground(12, 12, 12);
     
     // 0 output channels,
@@ -43,11 +48,10 @@ void ofApp::setup(){
     
     left.assign(bufferSize, 0.0);
     right.assign(bufferSize, 0.0);
-    volume_array.assign(NUM_PLAYERS, 0.0);
     isClippingArr.assign(NUM_PLAYERS, false);
     
     for(int i = 0; i < NUM_PLAYERS; i++) {
-        column_array.push_back(new PlayerColumn(&volume_array[i], &key_state_arr, &isClippingArr, i+1));
+        column_array.push_back(new PlayerColumn(&smoothedVol, &key_state_arr, &isClippingArr, i+1));
     }
     
     auto audioInAuto = std::bind(&ofApp::audioIn, this, _1, _2, _3);
@@ -56,7 +60,9 @@ void ofApp::setup(){
 
 /* Function: draw_game_over_box
  -------------------------------
- *
+ * This function is called when the game ends, and draws the box over the
+ * player columns to display the the game over message. It is shaded with
+ * the color of the winning racer.
  */
 void ofApp::draw_game_over_box(){
     if(loser == 1){
@@ -79,7 +85,7 @@ void ofApp::draw_game_over_box(){
 
 /* Function: game_over_message
  -------------------------------
- *
+ * This function prints the game over message once a player has won.
  */
 void ofApp::game_over_message() {
     ofPushStyle();
@@ -102,7 +108,12 @@ void ofApp::game_over_message() {
 
 /* Function: update
  -------------------------------
- *
+ * This is the update function for the ofApp class. It should be called once after
+ * each draw call. If the game is not currently over, then the function updates each
+ * of the player column object. If either of these column update calls return true, then
+ * a collision has occured, and the ending of the game is handled. If not, then the
+ * isClippingArr object is updated so it reflects whether each player is currently 
+ * clipping their assigned fft bin, and the fft_bar object is updated.
  */
 void ofApp::update() {
     if(!game_over) {
@@ -120,7 +131,10 @@ void ofApp::update() {
 
 /* Function: draw
  -------------------------------
- *
+ * This is the draw function for the ofApp object. It should be called once before
+ * every update call. First, it draws each of the player column objects in their current
+ * state. Then, it draws the game over message if the game is currently over. Then
+ * it draws the fft_bar object in its current state.
  */
 void ofApp::draw(){
     for(int i = 0; i < NUM_PLAYERS; i++) {
@@ -142,6 +156,19 @@ void ofApp::draw(){
 
 /* Function: audioIn
  -------------------------------
+ * This is the audio "callback" function for the ofApp object. It takes in the current
+ * input to the microphone in a vector of floats, along with the bufferSize and
+ * number of channels. It find the root mean squared volume across the current input
+ * buffer, and stores a smoothed version of this value in the smoothedVol variable.
+ 
+ * NOTE: the reason this is more of an audio "callback" function, and not a true audio
+ * callback function is because this isn't actually the function that the audio thread
+ * will call everytime a new audio buffer is to be processed. That function is actually
+ * the audioReceived function in the ofxEasyFFT class. However, a forward call wrap object
+ * of this function has been passed to the ofxEasyFFT class, and that object call this
+ * function each time its audio callback fucntion executes. So, functionally, this can
+ * be though of as a part of the overall audio callback, which is split between the ofApp
+ * class and the ofxEasyFFT class, although technically this is not the audio callback function.
  *
  */
 void ofApp::audioIn(vector<float> input, int bufferSize, int nChannels){
@@ -155,41 +182,38 @@ void ofApp::audioIn(vector<float> input, int bufferSize, int nChannels){
     for (int i = 0; i < bufferSize; i++){
         left[i]		= input[i*2]*0.5;
         right[i]	= input[i*2+1]*0.5;
-        
         float start_cur = curVol;
         curVol += left[i] * left[i];
         curVol += right[i] * right[i];
         numCounted+=2;
     }
-    
-    //this is how we get the mean of rms :)
     curVol /= (float)numCounted;
-    
-    // this is how we get the root of rms :)
     curVol = sqrt( curVol );
     
     smoothedVol *= 0.93;
     smoothedVol += 0.07 * curVol;
-    
-    for(int i = 0; i < volume_array.size(); i++){
-        volume_array[i] = smoothedVol;
-    }
 }
 
 /* Function: windowResized
  -------------------------------
- *
+ * This is the resize window function, which is called each time the window is resized.
+ * if first resizes each of the player columns, then the fft_bar object. It then calls
+ * the draw function, which is necessary to avoid a bug in the check_for_collision 
+ * function in PlayerColumn, where the function was trying to use new backend values with
+ * pre-resize graphical values to detect collisions, and crashing because of it.
  */
 void ofApp::windowResized(int w, int h){
     for(int i = 0; i < NUM_PLAYERS; i++) {
         column_array[i]->resize();
     }
     fft_bar.resize();
+    draw();
 }
 
 /* Function: keyReleased
  -------------------------------
- *
+ * This function adds whichever key was just pressed to the key_state_arr vector,
+ * which contains the list of all keys currently being pressed down.
  */
 void ofApp::keyPressed(int key){
     key_state_arr.push_back(key);
@@ -197,7 +221,7 @@ void ofApp::keyPressed(int key){
 
 /* Function: keyReleased
  -------------------------------
- *
+ * This function is passed a key, and removes that key from the key_state_arr vector.
  */
 void ofApp::removeKeyFromState(int key){
     vector <int> new_array;
@@ -211,7 +235,7 @@ void ofApp::removeKeyFromState(int key){
 
 /* Function: keyReleased
  -------------------------------
- *
+ * This function removes a key that has been released from the key_state_arr vector.
  */
 void ofApp::keyReleased(int key){
     removeKeyFromState(key);
