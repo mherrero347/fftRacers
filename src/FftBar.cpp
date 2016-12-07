@@ -9,6 +9,10 @@
                         PUBLIC METHODS
  -------------------------------------------------------------- */
 
+/* Constructor: FftBar
+ -------------------------------
+ * 
+ */
 FftBar::FftBar(){
     calc_dimensions();
     fft.setup();
@@ -24,7 +28,7 @@ FftBar::FftBar(){
     game_bins = 0;
 }
 
-/* Function: draw_game_over_box
+/* Function: update
  -------------------------------
  *
  */
@@ -33,7 +37,7 @@ bool FftBar::update(){
     player_bar_timer.update();
 }
 
-/* Function: draw_game_over_box
+/* Function: changePlayerBars
  -------------------------------
  *
  */
@@ -42,7 +46,7 @@ void FftBar::changePlayerBars(int &i){
     currBinPlayerTwo = ofRandom(0, game_bins)/1;
 }
 
-/* Function: draw_game_over_box
+/* Function: draw
  -------------------------------
  *
  */
@@ -56,7 +60,7 @@ void FftBar::draw(){
     ofPopStyle();
 }
 
-/* Function: draw_game_over_box
+/* Function: resize
  -------------------------------
  *
  */
@@ -64,7 +68,7 @@ void FftBar::resize(){
     calc_dimensions();
 }
 
-/* Function: draw_game_over_box
+/* Function: storeAppAudioCallback
  -------------------------------
  *
  */
@@ -76,7 +80,7 @@ void FftBar::storeAppAudioCallback(std::function<void(vector<float>, int, int)> 
                         PRIVATE METHODS
  -------------------------------------------------------------- */
 
-/* Function: draw_game_over_box
+/* Function: calc_dimensions
  -------------------------------
  *
  */
@@ -85,7 +89,7 @@ void FftBar::calc_dimensions() {
     bar_height = ofGetHeight()/6.0;
 }
 
-/* Function: draw_game_over_box
+/* Function: bin_passed_thresh
  -------------------------------
  *
  */
@@ -99,7 +103,7 @@ bool FftBar::bin_passed_thresh(int ind){
     }
 }
 
-/* Function: draw_game_over_box
+/* Function: get_game_spectrum
  -------------------------------
  *
  */
@@ -112,7 +116,7 @@ vector<float> FftBar::get_game_spectrum(){
     return bins;
 }
 
-/* Function: draw_game_over_box
+/* Function: draw_bin_bars
  -------------------------------
  *
  */
@@ -140,15 +144,15 @@ void FftBar::draw_bin_bars(){
     ofPopStyle();
 }
 
-/* Function: draw_game_over_box
+/* Function: playerClipping
  -------------------------------
  *
  */
 bool FftBar::playerClipping(int player){
     if(player == 1) {
-        return bin_passed_thresh(currBinPlayerTwo);
-    } else {
         return bin_passed_thresh(currBinPlayerOne);
+    } else {
+        return bin_passed_thresh(currBinPlayerTwo);
     }
     return false;
 }
