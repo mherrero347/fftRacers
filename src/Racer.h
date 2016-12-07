@@ -1,10 +1,14 @@
-//
-//  Racer.hpp
-//  fftRacers
-//
-//  Created by Matthew Herrero on 11/30/16.
-//
-//
+/* File: Racer.h - fftRacers - Created by Matthew Herrero on 11/30/16.
+ ------------------------------------------------------------------------------
+ * This file implements a racer object for use in PlayerColumn object. This
+ * Racer class tracks its own position, radius, and color. It implements an
+ * acceleration-velocity based movement scheme. It contains some helper function
+ * for the check_collisions function in PlayerColumn, such as getting all y
+ * levels the circle is contained on, the circle's edge points at a given y value,
+ * and the center points for the circle.
+ *
+ * Detailed function descriptions can be found in the Racer.cpp file
+ */
 
 #ifndef Racer_h
 #define Racer_h
@@ -39,12 +43,16 @@ private:
     ofColor racer_color;
     int move_left_key, move_right_key;
     float column_width, column_height, current_accel, current_vel;
+    //contains a pointer to the vector containing which keys are held down, owned and updated by ofApp
     vector<int>* keyStatePtr;
+    
+    //CONSTANTS
     const int racer_radius = 10;
     const float move_accel = .8;
     const float max_velocity = 3;
     const float damping_accel = .5;
     const float velocity_epsilon = 0.1;
+    const float vel_jitter_const = 1.2;
     
 };
 

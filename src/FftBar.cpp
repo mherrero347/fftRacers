@@ -1,23 +1,20 @@
-//
-//  FftBar.cpp
-//  fftRacers
-//
-//  Created by Matthew Herrero on 12/4/16.
-//
-//
+/* File: FftBar.cpp - fftRacers - Created by Matthew Herrero on 12/4/16.
+ -----------------------------------------------------------------------
+ *
+ */
 
 #include "FftBar.h"
 
-//##########################
-//#### PUBLIC FUNCTIONS ####
-//##########################
+/* --------------------------------------------------------------
+                        PUBLIC METHODS
+ -------------------------------------------------------------- */
 
 FftBar::FftBar(){
     calc_dimensions();
     fft.setup();
-    fft.setNumFFTBins(50);
+    fft.setNumFFTBins(40);
     fft.setNormalize(false);
-    fft.setFFTpercentage(.05);
+    fft.setFFTpercentage(.047);
     fft.setVolumeRange(400);
     player_bar_timer.setup(5000);
     player_bar_timer.start(true);
@@ -27,43 +24,71 @@ FftBar::FftBar(){
     game_bins = 0;
 }
 
+/* Function: draw_game_over_box
+ -------------------------------
+ *
+ */
 bool FftBar::update(){
     fft.update();
     player_bar_timer.update();
 }
 
+/* Function: draw_game_over_box
+ -------------------------------
+ *
+ */
 void FftBar::changePlayerBars(int &i){
     currBinPlayerOne = ofRandom(0, game_bins)/1;
     currBinPlayerTwo = ofRandom(0, game_bins)/1;
 }
 
+/* Function: draw_game_over_box
+ -------------------------------
+ *
+ */
 void FftBar::draw(){
     ofPushStyle();
     ofSetColor(245, 58, 135);
     ofNoFill();
     ofDrawRectangle(0, 0, bar_width, bar_height);
     draw_bin_bars();
-    fft.drawDebug();
+    //fft.drawDebug();
     ofPopStyle();
 }
 
+/* Function: draw_game_over_box
+ -------------------------------
+ *
+ */
 void FftBar::resize(){
     calc_dimensions();
 }
 
+/* Function: draw_game_over_box
+ -------------------------------
+ *
+ */
 void FftBar::storeAppAudioCallback(std::function<void(vector<float>, int, int)> _audioInApp){
     fft.storeAppAudioCallback(_audioInApp);
 }
 
-//###########################
-//#### PRIVATE FUNCTIONS ####
-//###########################
+/* --------------------------------------------------------------
+                        PRIVATE METHODS
+ -------------------------------------------------------------- */
 
+/* Function: draw_game_over_box
+ -------------------------------
+ *
+ */
 void FftBar::calc_dimensions() {
     bar_width = 5*ofGetWidth()/6.0;
     bar_height = ofGetHeight()/6.0;
 }
 
+/* Function: draw_game_over_box
+ -------------------------------
+ *
+ */
 bool FftBar::bin_passed_thresh(int ind){
     vector<float> spectrum = get_game_spectrum();
     if(spectrum.size()<=0) return false;
@@ -74,7 +99,10 @@ bool FftBar::bin_passed_thresh(int ind){
     }
 }
 
-
+/* Function: draw_game_over_box
+ -------------------------------
+ *
+ */
 vector<float> FftBar::get_game_spectrum(){
     vector<float> bins = fft.getSpectrum();
     if(bins.size() > 0) {
@@ -84,6 +112,10 @@ vector<float> FftBar::get_game_spectrum(){
     return bins;
 }
 
+/* Function: draw_game_over_box
+ -------------------------------
+ *
+ */
 void FftBar::draw_bin_bars(){
     ofPushStyle();
     ofSetRectMode(OF_RECTMODE_CORNER);
@@ -108,6 +140,10 @@ void FftBar::draw_bin_bars(){
     ofPopStyle();
 }
 
+/* Function: draw_game_over_box
+ -------------------------------
+ *
+ */
 bool FftBar::playerClipping(int player){
     if(player == 1) {
         return bin_passed_thresh(currBinPlayerTwo);

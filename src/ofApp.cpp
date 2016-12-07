@@ -1,15 +1,32 @@
+/* File: ofApp.cpp
+ -------------------------------
+ *
+ */
+
+
 #include "ofApp.h"
 using namespace std::placeholders;
 
+/* --------------------------------------------------------------
+                        PUBLIC METHODS
+-------------------------------------------------------------- */
+
+/* Destructor: ~ofApp
+ -------------------------------
+ *  
+ */
 ofApp::~ofApp(){
     column_array.clear();
 }
 
-//--------------------------------------------------------------
+/* Function: draw_game_over_box
+ -------------------------------
+ *
+ */
 void ofApp::setup(){
     
     ofSetVerticalSync(true);
-    ofSetCircleResolution(80);
+    //ofSetCircleResolution(80);
     ofBackground(12, 12, 12);
     
     // 0 output channels,
@@ -37,6 +54,10 @@ void ofApp::setup(){
     fft_bar.storeAppAudioCallback(audioInAuto);
 }
 
+/* Function: draw_game_over_box
+ -------------------------------
+ *
+ */
 void ofApp::draw_game_over_box(){
     if(loser == 1){
         ofSetColor(255, 0, 0, 127);
@@ -56,6 +77,10 @@ void ofApp::draw_game_over_box(){
     ofDrawRectangle(0, 0, 2*ofGetWidth()/3.0, 2*ofGetHeight()/3.0);
 }
 
+/* Function: game_over_message
+ -------------------------------
+ *
+ */
 void ofApp::game_over_message() {
     ofPushStyle();
     ofPushMatrix();
@@ -75,9 +100,10 @@ void ofApp::game_over_message() {
     ofPopStyle();
 }
 
-
-
-//--------------------------------------------------------------
+/* Function: update
+ -------------------------------
+ *
+ */
 void ofApp::update() {
     if(!game_over) {
         for(int i = 0; i < NUM_PLAYERS; i++) {
@@ -92,7 +118,10 @@ void ofApp::update() {
     }
 }
 
-//--------------------------------------------------------------
+/* Function: draw
+ -------------------------------
+ *
+ */
 void ofApp::draw(){
     for(int i = 0; i < NUM_PLAYERS; i++) {
         ofPushStyle();
@@ -111,7 +140,10 @@ void ofApp::draw(){
     ofPopStyle();
 }
 
-//--------------------------------------------------------------
+/* Function: audioIn
+ -------------------------------
+ *
+ */
 void ofApp::audioIn(vector<float> input, int bufferSize, int nChannels){
     
     float curVol = 0.0;
@@ -144,7 +176,10 @@ void ofApp::audioIn(vector<float> input, int bufferSize, int nChannels){
     }
 }
 
-//--------------------------------------------------------------
+/* Function: windowResized
+ -------------------------------
+ *
+ */
 void ofApp::windowResized(int w, int h){
     for(int i = 0; i < NUM_PLAYERS; i++) {
         column_array[i]->resize();
@@ -152,11 +187,18 @@ void ofApp::windowResized(int w, int h){
     fft_bar.resize();
 }
 
-//--------------------------------------------------------------
+/* Function: keyReleased
+ -------------------------------
+ *
+ */
 void ofApp::keyPressed(int key){
     key_state_arr.push_back(key);
 }
 
+/* Function: keyReleased
+ -------------------------------
+ *
+ */
 void ofApp::removeKeyFromState(int key){
     vector <int> new_array;
     for(int i = 0; i < key_state_arr.size(); i++){
@@ -167,7 +209,10 @@ void ofApp::removeKeyFromState(int key){
     key_state_arr = new_array;
 }
 
-//--------------------------------------------------------------
+/* Function: keyReleased
+ -------------------------------
+ *
+ */
 void ofApp::keyReleased(int key){
     removeKeyFromState(key);
 }

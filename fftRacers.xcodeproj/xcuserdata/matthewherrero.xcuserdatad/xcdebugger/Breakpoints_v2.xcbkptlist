@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/FftBar.cpp"
-            timestampString = "502757006.845766"
+            timestampString = "502760910.045147"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "FftBar::draw_bin_bars()"
             landmarkType = "7">
          </BreakpointContent>

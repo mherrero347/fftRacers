@@ -14,6 +14,7 @@
 #include "Racer.h"
 
 class PlayerColumn {
+    PlayerColumn();
     ~PlayerColumn();
     
     public:
@@ -34,7 +35,6 @@ class PlayerColumn {
         void clear_danger_buffers();
     
         Racer *racer;
-        int gainKey;
         int playerNumber;
         vector <tuple <float,float>> volHistory;
         vector <ofPoint> danger_zone_left;

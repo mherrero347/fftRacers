@@ -1,10 +1,7 @@
-//
-//  FftBar.h
-//  fftRacers
-//
-//  Created by Matthew Herrero on 12/4/16.
-//
-//
+/* File: FftBar.h - fftRacers - Created by Matthew Herrero on 12/4/16.
+ -----------------------------------------------------------------------
+ * 
+ */
 
 #ifndef FftBar_h
 #define FftBar_h
@@ -37,7 +34,7 @@ private:
     float bar_width, bar_height;
     int currBinPlayerOne, currBinPlayerTwo, game_bins;
     
-    const int TRASH_PREFIX_BINS = 11;
+    const int TRASH_PREFIX_BINS = 9;
 };
 
 
