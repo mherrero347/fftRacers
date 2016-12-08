@@ -23,10 +23,10 @@
  * of the column. It contains stub intialization for move_left_key, move_right_key
  * current_accel, current_vel, and the racer position object
  */
-Racer::Racer(vector<int>* keyStatePtrColumn, int width, int height) :
-keyStatePtr(keyStatePtrColumn),
-column_width(width),
-column_height(height),
+Racer::Racer(vector<int>* _keyStatePtr, int _column_width, int _column_height) :
+keyStatePtr(_keyStatePtr),
+column_width(_column_width),
+column_height(_column_height),
 move_left_key(0),
 move_right_key(0),
 current_accel(0),

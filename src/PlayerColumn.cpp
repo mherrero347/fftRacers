@@ -1,6 +1,11 @@
 /* File: PlayerColumn.cpp - fftRacers - Created by Matthew Herrero on 11/25/16.
  ------------------------------------------------------------------------------
- *
+ * This is the PlayerColumn class that creates and handles a racer column for
+ * a player. It draws the walls of the column to reflect the recent rms volume
+ * from the microphone input. It checks for whether the racer object has collided
+ * with the wall at each moment, and signals the ofApp object if that is the
+ * case. It also handles assigning racer-specific properties, like racer
+ * color and move keys.
  */
 
 #include "PlayerColumn.h"
@@ -25,10 +30,10 @@ PlayerColumn::~PlayerColumn(){
  -------------------------------
  * This is the constructor of the PlayerColumn object. It takes in 4 parameters, each of which
  * are used to initialize a different member variables in the class:
- *      - smoothedVolApp points to a float value in ofApp that is updated with smoothed
+ *      - _smoothedVolPtr points to a float value in ofApp that is updated with smoothed
  *          rms volume of the signal at each moment (audio-thread)
- *      - keyStateApp points to the vector containing keys currently pressed down
- *      - isClippingApp points to a vector of booleans. The first element tells if player
+ *      - _keyStatePtr points to the vector containing keys currently pressed down
+ *      - _isClippingPtr points to a vector of booleans. The first element tells if player
  *          one has pegged their current FFT bin, and the second tells if player two
  *          has done that
  *      - _playerNumber contains the current player number
@@ -37,10 +42,10 @@ PlayerColumn::~PlayerColumn(){
  * also intializes the racer object, sets it to it's initial position, and assigns the player
  * specific values (move keys and color)
  */
-PlayerColumn::PlayerColumn(float* smoothedVolApp, vector<int>* keyStateApp, vector<bool>* isClippingArrApp, int _playerNumber) :
-smoothedVolPtr(smoothedVolApp),
-keyStatePtr(keyStateApp),
-isClippingPtr(isClippingArrApp),
+PlayerColumn::PlayerColumn(float* _smoothedVolPtr, vector<int>* _keyStatePtr, vector<bool>* _isClippingPtr, int _playerNumber) :
+smoothedVolPtr(_smoothedVolPtr),
+keyStatePtr(_keyStatePtr),
+isClippingPtr(_isClippingPtr),
 playerNumber(_playerNumber)
 {
     calc_column_dimensions();

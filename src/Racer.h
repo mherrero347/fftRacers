@@ -19,7 +19,7 @@
 class Racer {
     
 public:
-    Racer(vector<int>* keyStatePtrColumn, int width, int height);
+    Racer(vector<int>* _keyStatePtr, int _column_width, int _column_height);
     void set_move_keys(int left, int right);
     void set_racer_color(int r, int g, int b);
     void set_racer_position(float x, float y);

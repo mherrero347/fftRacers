@@ -1,6 +1,11 @@
 /* File: FftBar.cpp - fftRacers - Created by Matthew Herrero on 12/4/16.
  -----------------------------------------------------------------------
- *
+ * This class creates and handles the FFT Bar object at the bottom of the screen,
+ * below the player columns. It parses approximately the bottom 5% of the fft into
+ * bins, and assigns each player one of these bins every 3 seconds. It draws each 
+ * of these bins with a height that is dependent on the volume of that bin at that
+ * moment. It also tracks whether each player is successfully "clipping" their assigned
+ * fft bin at each moment.
  */
 
 #include "FftBar.h"

@@ -1,6 +1,13 @@
-/* File: ofApp.cpp
- -------------------------------
- * 
+/* File: ofApp.cpp - created by Matt Herrero
+ --------------------------------------------
+ * This is the ofApp file, which is the overall controller of the whole game.
+ * it creates the player column and fft bar objects, and handles calling their
+ * draw and update functions. It also recieves keyboard events and tracks which
+ * keys are being held down at each given moment, for use in the PlayerColumn and
+ * Racer objects. It also has an audioIn function, which is a sort of psuedo-
+ * audio callback (called by the actual audio callback in ofxEasyFFT) and handles
+ * calculating the rms volume of each input buffer. It also recognizes and handles
+ * game over events.
  */
 
 
