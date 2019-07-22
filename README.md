@@ -1,3 +1,5 @@
+![logo](https://i.gyazo.com/4c3285026ce5200dbb423e993b12f675.png)
+
 # fftRacers
 fftRacers is a two-player, competitive, scroll-based game built in C++ and openFrameworks. Each player controls a dot on the screen, which they can move from left to right. They also control the "walls" of their opponents scrolling column. The objective? Cause your oppenent to crash into the wall, but make sure you don't!
 
